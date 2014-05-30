@@ -74,7 +74,7 @@ Statement of principles, all open for discussion:
 
 - Strict server/clients architecture
 - All information between server and clients in json
-- Server is a python web server that generates new turns based on old universe plus orders
+- Server is a flask RESTful python web server that generates new turns based on old universe plus orders
 - Server accepts partial orders as well as complete orders and can be queried for all existing state
 - Base client would be a web based client that functions much like the current client
 - Other clients could do various automation tasks and store partial orders, notes, messages etc on the server
@@ -94,26 +94,26 @@ Clients only access this API and the server has no other interface.
 Although more methods will probably be needed at some point, I think the interface below should be a good starting point:
 
 ```python
-GET /game  # list available games
-POST /game  # create a new game by POSTING settings
-GET /game/<game-id>  # retrieve settings for a game
-PUT /game/<game-id>/player/<player-number>/race  # upload race file
-GET /game/<game-id>/player/<player-number>/race
-GET /game/<game-id>/player/<player-number>/turn/<turn-number>/universe
-GET /game/<game-id>/player/<player-number>/turn/<turn-number>/orders
-PUT /game/<game-id>/player/<player-number>/turn/<turn-number>/orders
+GET /games  # list available games
+POST /games  # create a new game by POSTING settings
+GET /games/<game-id>  # retrieve settings for a game
+PUT /games/<game-id>/player/<player-number>/race  # upload race file
+GET /games/<game-id>/player/<player-number>/race
+GET /games/<game-id>/player/<player-number>/turn/<turn-number>/universe
+GET /games/<game-id>/player/<player-number>/turn/<turn-number>/orders
+PUT /games/<game-id>/player/<player-number>/turn/<turn-number>/orders
 ```
 
 Game flow
 ----
 
-1. Someone creates a new game by POST-ing a game settings file to /game. This setting file contains settings, rules, etc. as well as the usernames of people invited to the game.
-2. Player GET the game settings at /game/1
-3. Player PUT the game settings at /game/1/player/1/race
+1. Someone creates a new game by POST-ing a game settings file to /games. This setting file contains settings, rules, etc. as well as the usernames of people invited to the game.
+2. Player GET the game settings at /games/1
+3. Player PUT the game settings at /games/1/player/1/race
 4. As soon as all race files are in, or at some other predefined moment, the game commences and turn 0 is created
-5. Player GET the game settings at /game/1 and see that the current turn is turn 1 and that they need to make a move
-6. Player GET the universe at /game/1/turn/1/universe
-7. Player makes his moves and PUTs to /game/1/turn/1/orders, containing a flag "end of turn" to mark that he/she is ready
+5. Player GET the game settings at /games/1 and see that the current turn is turn 1 and that they need to make a move
+6. Player GET the universe at /games/1/turn/1/universe
+7. Player makes his moves and PUTs to /games/1/turn/1/orders, containing a flag "end of turn" to mark that he/she is ready
 8. Optionally, the player goes through as many iterations as desired of GETting the current orders and PUTting new orders
 8. As soon as all orders are ready, or at some other predefined moment, the turn is processed, and turn 2 is ready.
 
