@@ -11,7 +11,7 @@ This repository will only hold the server code. Any client(s) will get their own
 Installation
 ====
 
-You need to have python, flask, and flask restful installed.
+You need to have python, mongodb, and various python modules installed.
 
 On linux, I recommend using a virtual environment to keep things contained.
 Something like the following should do the trick for ubuntu/debian.
@@ -19,10 +19,10 @@ For other distros, replace the first line by something more suitable.
 
 
 ```bash
-sudo apt-get install python-virtualenv python3
+sudo apt-get install python-virtualenv python3 mongodb
 virtualenv -p /usr/bin/python3 env
 source env/bin/activate
-pip install flask flask-restful
+pip install -r requirements.txt
 ```
 
 Running the server
@@ -30,41 +30,16 @@ Running the server
 
 (Note: if using a virtual environment, make sure that it is activated by running `source env/bin/activate`!)
 
-Start the server by calling the `server.py` module:
+Start the debug server by calling the `run.py` module:
 
 ```
-$ python starserver/server.py
+$ python starserver/run.py
  * Running on http://127.0.0.1:5000/
  * Restarting with reloader
 ```
 
-You can now play around with it, e.g. using curl:
-
-```bash
- ~$ curl http://localhost:5000/games
-[]
- ~$ curl -XPOST -d '{"name" : "test2"}' http://localhost:5000/games
-{
-    "created": true,
-    "game_id": 0
-}
- ~$ curl http://localhost:5000/games
-[
-    {
-        "name": "test2"
-    }
-]
- ~$ curl http://localhost:5000/games/0
-{
-    "name": "test2"
-}
- ~$ curl http://localhost:5000/games/1
-{
-    "message": "Not Found. You have requested this URI [/games/1] but did you mean /games/<int:game_id> or /games ?",
-    "status": 404
-}
- ~$
-```
+You can now play around with it, e.g. using curl or [postman](https://chrome.google.com/webstore/detail/postman-rest-client/fdmmgilgnpjigdojojpjoooidkmcomcm).
+See [this link](https://gist.github.com/vanatteveldt/7c434b668becbfcacb44) for an example curl session of moving a ship around.
 
 
 Architecture
