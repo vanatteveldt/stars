@@ -30,10 +30,10 @@ Running the server
 
 (Note: if using a virtual environment, make sure that it is activated by running `source env/bin/activate`!)
 
-Start the debug server by calling the `run.py` module:
+Start the debug server by calling the `run.py` script:
 
 ```
-$ python starserver/run.py
+$ python run.py
  * Running on http://127.0.0.1:5000/
  * Restarting with reloader
 ```
