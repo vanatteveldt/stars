@@ -56,7 +56,7 @@ class Orders(db.Document):
 class FleetOrder(db.Document):
     """
     An order for a fleet
-    (fixme: since fleet is per turn, there is some redundancy here)
+    (fixme: since fleet is also per turn, there is some redundancy here)
     """
     orders = db.ReferenceField(Orders)
     fleet = db.ReferenceField(Fleet)

@@ -29,13 +29,12 @@ def process_turn(t):
     # objects for storing new turn and orders
     t2 = Turn.objects.create(game=t.game, turn=t.turn + 1)
     print("Processing turn {t2.turn}".format(**locals()))
-    o2 = Orders.objects.create(turn=t2)
 
     # Order of events
     # 6. Fleets move
     for f in Fleet.objects(turn=t):
         print("... Moving fleet {f.id}".format(**locals()))
-        move_fleet(f, t2, o2)
+        move_fleet(f, t2)
 
     # 14. Pop grows
     for p in Planet.objects(turn=t):
@@ -48,7 +47,7 @@ def process_planet(p, t2):
         p2.population = int(p2.population * 1.1)
     p2.save()
 
-def move_fleet(f, t2, o2):
+def move_fleet(f, t2):
     f2 = Fleet(turn=t2, name=f.name, x=f.x, y=f.y)
     print(">>>", f2.to_json())
     keep_order = False
@@ -68,4 +67,6 @@ def move_fleet(f, t2, o2):
             keep_order = True
     f2.save()
     if keep_order:
-        FleetOrder.objects.create(orders=o2, fleet=f2, dest_x=fo.dest_x, dest_y=fo.dest_y, warp=fo.warp)
+        o2, _created = Orders.objects.get_or_create(turn=t2)
+        FleetOrder.objects.create(orders=o2, fleet=f2,
+                                  dest_x=fo.dest_x, dest_y=fo.dest_y, warp=fo.warp)
