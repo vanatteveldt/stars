@@ -4,7 +4,7 @@ Open source stars! clone
 This is an attempt at an open source stars! clone.
 I realize that there have been a number of attempts in the past, so hopefully this can succeed by openness and modularity.
 
-*Development Status*: not even started yet
+*Development Status*: Extremely early [![Build Status](https://travis-ci.org/vanatteveldt/stars.png)](https://travis-ci.org/vanatteveldt/stars) 
 
 This repository will only hold the server code. Any client(s) will get their own repository.
 
